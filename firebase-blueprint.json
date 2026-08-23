@@ -1,0 +1,238 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "User profile with gamification stats, XP, streak, language and pet details",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Unique user ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the user"
+        },
+        "xp": {
+          "type": "integer",
+          "description": "Total XP earned"
+        },
+        "level": {
+          "type": "integer",
+          "description": "Current student level"
+        },
+        "streak": {
+          "type": "integer",
+          "description": "Consecutive study days streak"
+        },
+        "petLevel": {
+          "type": "integer",
+          "description": "Current pet companion level"
+        },
+        "petXp": {
+          "type": "integer",
+          "description": "Current pet companion XP"
+        },
+        "petName": {
+          "type": "string",
+          "description": "Name of the study pet companion"
+        },
+        "language": {
+          "type": "string",
+          "description": "UI language preference (en or hi)"
+        },
+        "lastActive": {
+          "type": "string",
+          "description": "ISO string of last activity timestamp"
+        }
+      },
+      "required": ["uid", "name", "xp", "level", "streak", "petLevel", "petXp", "petName", "language", "lastActive"]
+    },
+    "chatMessage": {
+      "title": "ChatMessage",
+      "description": "Real-time group chat messages for study collaboration",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique message ID"
+        },
+        "roomId": {
+          "type": "string",
+          "description": "Study room identifier"
+        },
+        "senderId": {
+          "type": "string",
+          "description": "Sender user ID"
+        },
+        "senderName": {
+          "type": "string",
+          "description": "Sender display name"
+        },
+        "text": {
+          "type": "string",
+          "description": "Content of the message"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "ISO string of message timestamp"
+        }
+      },
+      "required": ["id", "roomId", "senderId", "senderName", "text", "timestamp"]
+    },
+    "whiteboardElement": {
+      "title": "WhiteboardElement",
+      "description": "A single drawing or text element on the real-time shared whiteboard",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique element ID"
+        },
+        "roomId": {
+          "type": "string",
+          "description": "Study room identifier"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of element (path, rect, circle, text)"
+        },
+        "color": {
+          "type": "string",
+          "description": "Hex color of the element"
+        },
+        "thickness": {
+          "type": "integer",
+          "description": "Line stroke width"
+        },
+        "points": {
+          "type": "string",
+          "description": "JSON serialized coordinates list for path or geometry details"
+        },
+        "text": {
+          "type": "string",
+          "description": "Text value for text elements"
+        },
+        "senderId": {
+          "type": "string",
+          "description": "Creator user ID"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "ISO string of element creation"
+        }
+      },
+      "required": ["id", "roomId", "type", "color", "thickness", "points", "senderId", "timestamp"]
+    },
+    "mockExam": {
+      "title": "MockExam",
+      "description": "AI-generated exam structure and user submissions",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique exam ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "ID of user taking the exam"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Exam subject"
+        },
+        "topic": {
+          "type": "string",
+          "description": "Exam topic"
+        },
+        "questionsJson": {
+          "type": "string",
+          "description": "JSON serialized list of questions and options"
+        },
+        "submittedAnswersJson": {
+          "type": "string",
+          "description": "JSON serialized list of submitted answers"
+        },
+        "score": {
+          "type": "integer",
+          "description": "Calculated score (0 to 100)"
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Whether exam is completed and graded"
+        },
+        "feedback": {
+          "type": "string",
+          "description": "AI structured study feedback"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "ISO string of exam timestamp"
+        }
+      },
+      "required": ["id", "userId", "subject", "topic", "questionsJson", "submittedAnswersJson", "score", "completed", "feedback", "timestamp"]
+    },
+    "studyDocument": {
+      "title": "StudyDocument",
+      "description": "Study notes and summaries with AI analysis and visual explanation details",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique document ID"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "ID of document owner"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the document"
+        },
+        "content": {
+          "type": "string",
+          "description": "Rich text study notes or raw transcript"
+        },
+        "summary": {
+          "type": "string",
+          "description": "AI generated concise summary"
+        },
+        "tagsJson": {
+          "type": "string",
+          "description": "JSON serialized tag array"
+        },
+        "isShared": {
+          "type": "boolean",
+          "description": "Whether notes are shared publicly/group"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "ISO string of document creation"
+        }
+      },
+      "required": ["id", "ownerId", "title", "content", "summary", "tagsJson", "isShared", "timestamp"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "user",
+      "description": "Collection storing user profiles and gamification stats"
+    },
+    "rooms/{roomId}/chats/{chatId}": {
+      "schema": "chatMessage",
+      "description": "Real-time group chat messages nested under collaborative rooms"
+    },
+    "rooms/{roomId}/whiteboard/{elementId}": {
+      "schema": "whiteboardElement",
+      "description": "Real-time vector whiteboard elements for study drawing"
+    },
+    "exams/{examId}": {
+      "schema": "mockExam",
+      "description": "AI-generated exam evaluations and responses"
+    },
+    "documents/{docId}": {
+      "schema": "studyDocument",
+      "description": "Core educational study documents and notes"
+    }
+  }
+}
